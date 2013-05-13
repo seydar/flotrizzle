@@ -1,0 +1,4 @@
+http://cdn.flotrack.org/config.json
+http://cdn.flowrestling.org/config.json
+http://cdn.gymnastike.org/config.json
+http://cdn.cyclingdirt.org/config.json

@@ -1,3 +1,3 @@
 system "ruby producer.rb < cdns.txt &"
-system "ruby consumer.rb &"
+system "ruby consumer.rb < cdns.txt &"
 
