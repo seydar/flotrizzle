@@ -6,21 +6,27 @@ require 'thread'
 require 'net/ssh'
 
 module Enumerable
+  # Since I was using this too much, this will run a block for each element
+  # in an enumerable object in a separate thread, returning the threads in
+  # an array at the end so you can #join them all if you'd like.
   def threaded_each(&blk)
     map {|i| Thread.new { blk.call i } }
   end
 end
 
+# HTTP request to CDN, parse the data, then do magic at it.
 def poll(cdn, &blk)
-  puts "Polling CDN"
+  puts "Polling CDN #{cdn}"
   data = JSON.load open(cdn)
   blk.call data
   data
 end
 
+# Connect to a server via SSH
 def connect_to(server, login, password, &blk)
-  puts "Connecting to #{login}:***@#{server}"
+  print "Connecting to #{login}:***@#{server} | "
   #Net::SSH.start(server, login, :password => password) {|ssh| blk.call ssh }
+  puts
 end
 
 # The system shall poll 4 CDNs for a JSON configuration file.
@@ -41,6 +47,7 @@ timers.every(5 * 60) do
       # code to SSH into a server).
       data['servers'].threaded_each do |server|
         connect_to server, data['server_admins'].first, "password" do |ssh|
+          puts "running `#{data['post_script']}`"
           ssh.exec data['post_script']
         end
       end
