@@ -32,7 +32,7 @@ end
 # The system shall poll 4 CDNs for a JSON configuration file.
 cdns  = STDIN.read.split
 
-REDIS = Redis.new "/tmp/demo.sock"
+REDIS = Redis.new
 
 # The system shall poll every CDN in 5 minute intervals.
 timers.every(5 * 60) do
