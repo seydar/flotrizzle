@@ -11,11 +11,10 @@ class Log
     @log.clear
   end
 
-  def prepend(*pieces)
-    [*pieces].reverse.each do |piece|
-      log.prepend piece
-      log.prepend "<br />"
-    end
+  def prepend(piece)
+    log.prepend "<br />"
+    log.prepend piece
+    log.prepend "#{Time.now} "
   end
 
   def connect(cdn, command)
@@ -32,9 +31,6 @@ class Log
 end
 
 # Sinatra does funky magic with class-methods and instance-methods
-# and I don't really want to spend the time to figure it out and make
-# it better right now. Settling for a copout.
-# # Sinatra does funky magic with class-methods and instance-methods
 # and I don't really want to spend the time to figure it out and make
 # it better right now. Settling for a copout.
 LOG = Log.new
