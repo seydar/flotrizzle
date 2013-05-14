@@ -54,12 +54,42 @@ Thread.new do
 end
 
 class LogViewer < Sinatra::Base
+  get '/' do
+    <<-END
+<html>
+  <head>
+    <script type='text/javascript' src='/jquery.js'></script>
+    <script>
+      function updateBody(){
+        $.ajax({
+          url: "log",
+          type: "GET",
+          success: function(data) { $('body').html(data); },
+          dataType: 'html'
+        });
+
+        setTimeout(updateBody, 5000);
+      }
+      updateBody();
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
+END
+  end
+
   get '/log' do
+    puts "responding"
     LOG.log
   end
 
   get '/clear' do
     LOG.clear
+  end
+
+  get '/jquery.js' do
+    File.read 'jquery.js'
   end
 end
 
