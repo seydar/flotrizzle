@@ -59,12 +59,14 @@ every_five = timers.every(5) do
   end
 end
 
-timers.wait
-
-# This thread is live updating, so the iterator has to be as well
-i = 0
-while i < threads.size
-  threads[i].join
-  i += 1
-end
+#loop do
+  timers.wait
+  
+  # This thread is live updating, so the iterator has to be as well
+  i = 0
+  while i < threads.size
+    threads[i].join
+    i += 1
+  end
+#end
 
