@@ -37,14 +37,15 @@ LOG = Log.new
 
 Thread.new do
   STDIN.each_line do |line|
-    case line
+    case line.chomp
     when /^connecting to (.+)/i
       parts = $1.split('|').map {|p| p.strip }
       LOG.connect parts[0], parts[1..-1].join('|')
     when /polling cdn (.+)/i
       LOG.poll $1
+    when ""
     else
-      LOG.other line.inspect
+      LOG.other line.chomp.inspect
     end
   end
 end

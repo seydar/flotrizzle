@@ -38,8 +38,6 @@ timers = Timers.new
 # The system shall poll every CDN in 5 minute intervals.
 every_five = timers.every(5) do
   threads += cdns.threaded_each do |cdn|
-    puts "\nStarting up #{cdn}"
-
     poll cdn do |data|
       # The system shall save the JSON configuration file in a meaningful way
       # in a Reddis.io data store upon successful poll.
@@ -50,8 +48,8 @@ every_five = timers.every(5) do
       # code to SSH into a server).
       threads += data['servers'].threaded_each do |server|
         connect_to server, data['server_admins'].first, "password" do |ssh|
-          puts "\nConnecting to #{data['server_admins']}:***@#{server} | " +
-               "running `#{data['post_script']}`"
+          puts "\nConnecting to #{data['server_admins'].first}:***@#{server} | " +
+               "`#{data['post_script']}`"
           #ssh.exec data['post_script']
         end
       end
