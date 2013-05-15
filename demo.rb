@@ -35,7 +35,7 @@ end
 # activity log to the system administrators specified in last successful JSON
 # configuration upon a poll failure.
 def email(cdn, e)
-  #data = JSON.load REDIS[cdn]
+  data = JSON.load REDIS[cdn]
   link = "http://logserver.flocasts.com/#{cdn.to_sym.object_id}"
 
   tox  = data['server_admins']
